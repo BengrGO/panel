@@ -42,6 +42,11 @@ div {
     font-weight: bold;
     padding-top: 30px;
 }
+@media(max-width: 700px) {
+div {
+padding: 20px;
+}
+}
 </style> 
 <div> ';
 
@@ -62,7 +67,7 @@ Password:<br>
 
         if (isset($_POST['newname'])) {
             if ($this->register($ext)) {
-                echo "<font color='green'>You have successfully registered!</font>";
+                echo "<font color='black'>You have successfully registered! </font><font color='darkgreen'>No email confirmation needed!</font>";
             }
         }
 
@@ -106,14 +111,14 @@ Password: <div style="padding: 0px 40%; float: right;">Verify password:</div><br
             echo "Unknown Username";
             return false;
         }
-        if (preg_match("/" . $_POST['name'] . "\/[^|]*/", $content, $matches)) {
+        if (preg_match("/" . $_POST['name'] . "\/[^|]*/i", $content, $matches)) {
             $matches = implode("", $matches);
             $matches = substr(strrchr($matches, "/"), 1);
             if ($_POST['pass'] != $matches) {
                 echo "Wrong password";
                 return false;
             }
-            preg_match("/" . $_POST['name'] . "\/.*/", $content, $matches);
+            preg_match("/" . $_POST['name'] . "\/.*/i", $content, $matches);
             $matches = implode("", $matches);
             $matches = substr(strrchr($matches, "|"), 1);
             echo '
@@ -168,8 +173,8 @@ Password: <div style="padding: 0px 40%; float: right;">Verify password:</div><br
         file_put_contents($ext . "balance.txt", $content . $key . ":0" . PHP_EOL);
         $content = file_get_contents($ext . "ids.txt");
         file_put_contents($ext . "ids.txt", $content . $key . "/" . PHP_EOL);
-        $content = file_get_contents("C:/xampp/htdocs/contact/chat.txt");
-        file_put_contents("C:/xampp/htdocs/contact/chat.txt", $content . $key . "|" . PHP_EOL); // someone may use | in chat
+        $content = file_get_contents("contact/chat.txt");
+        file_put_contents("contact/chat.txt", $content . $key . "|" . PHP_EOL); // someone may use | in chat
         return true;
     }
 

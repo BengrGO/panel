@@ -2,9 +2,9 @@
 
 class Api
 {
-    public $api_url = array('http://smmlite.com/api/v2'); // API URL
+    public $api_url = array('http://smmlite.com/api/v2','https://smmglobe.com/api/v2','https://justanotherpanel.com/api/v2'); // API URL
 
-    public $api_key = array('ad6c12efa86e5787691aafb3abebd9e6'); // Your API key
+    public $api_key = array('ad6c12efa86e5787691aafb3abebd9e6','e3d08e861c4e6c0e084ff8cb26f9eb0e','ea224e88cd5b3a3d18c9ce6b5dbde376'); // Your API key
 
     public function order($data, $prov = 0)   // provider 0 - smmlite.com
     { // add order
@@ -185,22 +185,30 @@ if (intval($_REQUEST["quantity"]) % $id[$_REQUEST["id"]][6] != 0) {
 }*/
 
 // ************ balance **************
+$price = $id[$_REQUEST["id"]][3];
+if (strpos(file_get_contents("../../resellers.txt"), $_REQUEST["key"]) !== false) {
+    $price = $id[$_REQUEST["id"]][2];
+}
+$c = $serv->custom;
+if (in_array($_REQUEST["key"], array_keys($c[$_REQUEST["id"]]))) {
+    $price = $c[$_REQUEST["id"]][$_REQUEST["key"]];
+}
 
 $balance = file_get_contents("../../balance.txt");
 $mat = mat("../../balance.txt", ":");
-$bal = strval(floatval($mat) - $id[$_REQUEST["id"]][3] / 1000 * intval($_REQUEST["quantity"]));
+$bal = strval(floatval($mat) - $price / 1000 * intval($_REQUEST["quantity"]));
 if ($bal < 0) {
     echo "{\"error\":\"not enough balance\"";
     echo ",\"quantity\":\"" . htmlspecialchars($_REQUEST["quantity"]) . "\"";
-    echo nl2br(",\"price\":\"") . strval($id[$_REQUEST["id"]][3] / 1000 * intval($_REQUEST["quantity"]) . "\"");
+    echo nl2br(",\"price\":\"") . strval($price / 1000 * intval($_REQUEST["quantity"]) . "\"");
     echo ",\"Balance\":\"" . floatval($mat) . "\"}";
     return;
 }
 $balance = preg_replace("/" . $key . ":[^\r\n]*/", $_REQUEST['key'].":".$bal, $balance);
 file_put_contents("../../balance.txt", $balance);
-echo $balance;
+//echo $balance;
 echo "{\"quantity\":\"" . htmlspecialchars($_REQUEST["quantity"]) . "\"";
-echo nl2br(",\"price\":\"") . strval($id[$_REQUEST["id"]][3] / 1000 * intval($_REQUEST["quantity"]) . "\"");
+echo nl2br(",\"price\":\"") . strval($price / 1000 * intval($_REQUEST["quantity"]) . "\"");
 echo ",\"Balance\":\"" . $bal . "\"}";
 unset($balance);
 
