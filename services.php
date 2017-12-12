@@ -9,9 +9,9 @@
 class Services {
     public $services = array
     (
-        1 => array(112, 1, 0.84, 0.90, 1000, 60000, 1000),
-        2 => array(110, 1, 0.12, 0.15, 1000, 400000, 1000),
-        3 => array(70, 1, 5.60, 6, 100, 10000, 100)
+        1 => array(112, 1, 0.83, 0.85, 1000, 60000, 1000),
+        2 => array(88, 1, 0.28, 0.30, 1000, 200000, 1000),
+        3 => array(70, 1, 7.80, 8, 100, 10000, 100)
     );
     public $info = array
     (
@@ -22,8 +22,8 @@ class Services {
     public $custom = array
     (
         1 => array("7zm@icaon36n@l5i8rg-]e7h[@10xn" => 0.82),
-        2 => array("7zm@icaon36n@l5i8rg-]e7h[@10xn" => 0.11),
-        3 => array("7zm@icaon36n@l5i8rg-]e7h[@10xn" => 5.52)
+        2 => array("7zm@icaon36n@l5i8rg-]e7h[@10xn" => 0.27),
+        3 => array("7zm@icaon36n@l5i8rg-]e7h[@10xn" => 7.70)
     );
 /*public $a = array(
     array
